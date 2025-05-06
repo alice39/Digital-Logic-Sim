@@ -150,7 +150,9 @@ namespace DLS.Graphics
 							break;
 						case SubChipInstance subchip:
 						{
-							DrawSubChip(subchip);
+							// Get sim representation of this subchip (note: if the subchip has not yet been placed, this will be null)
+							SimChip sim = chip.SimChip.TryGetSubChipFromID(subchip.ID).chip;
+							DrawSubChip(subchip, sim);
 							break;
 						}
 					}
@@ -280,7 +282,7 @@ namespace DLS.Graphics
 			return useBlackText ? ColHelper.Darken(chipCol, a) : ColHelper.Brighten(chipCol, a);
 		}
 
-		public static void DrawSubChip(SubChipInstance subchip)
+		public static void DrawSubChip(SubChipInstance subchip, SimChip sim = null)
 		{
 			ChipDescription desc = subchip.Description;
 			Color chipCol = desc.Colour;
