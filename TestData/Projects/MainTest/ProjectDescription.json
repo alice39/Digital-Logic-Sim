@@ -12,6 +12,8 @@
   "Prefs_SimPaused": false,
   "Prefs_SimTargetStepsPerSecond": 150,
   "Prefs_SimStepsPerClockTick": 6,
+  "Prefs_PortInterfaceType": 0,
+  "Prefs_PortInterface_PortNumber": 0,
   "AllCustomChipNames":[
     "AND",
     "D-LATCH",
@@ -58,7 +60,6 @@
     "XNOR",
     "EQUALS-8",
     "DECODER-2",
-    "RAM-256×8 (async)",
     "RAM-sync",
     "TEST MergeSplit",
     "#",
@@ -135,7 +136,7 @@
       "Name":"MEMORY"
     },
     {
-      "Chips":["D-LATCH","FLIP-FLOP","OR-8","MEM-1","NOT-8","AND(8,1)","MUX-8","PC","BUF-8","ALU-8","DECODE-3","AND-3","CONTROL UNIT","TOGGLE","FLAGS","DISP-7","demo","7-SEGMENT DRIVER","DABBLE","LSB","LSHIFT-8","DOUBLE DABBLE","ALU","BUS BUFFER","MEM-256","REGISTER-8","XNOR","EQUALS-8","ADDER-4","DECODER-2","ADDER-8","ADDER","MEM-16","REGISTER-1","AND-8","RAM-256×8 (async)","ROM 256×16"],
+      "Chips":["D-LATCH","FLIP-FLOP","OR-8","MEM-1","NOT-8","AND(8,1)","MUX-8","PC","BUF-8","ALU-8","DECODE-3","AND-3","CONTROL UNIT","TOGGLE","FLAGS","DISP-7","demo","7-SEGMENT DRIVER","DABBLE","LSB","LSHIFT-8","DOUBLE DABBLE","ALU","BUS BUFFER","MEM-256","REGISTER-8","XNOR","EQUALS-8","ADDER-4","DECODER-2","ADDER-8","ADDER","MEM-16","REGISTER-1","AND-8","ROM 256×16"],
       "IsToggledOpen":false,
       "Name":"KEEP"
     },
@@ -145,7 +146,7 @@
       "Name":"TEST"
     },
     {
-      "Chips":["PULSE","TEST MergeSplit","IN-16","OUT-16","16-1BIT","16-4BIT","16-8BIT","1-16BIT","4-16BIT","8-16BIT","RGBLED","BUS-16","#","ROM 256×x2x8","ROM 256×32","BUZZER","BuzzTest","0x25D9","Ascii 8Bit Display◙"],
+      "Chips":["PULSE","TEST MergeSplit","PORT-IN","PORT-OUT","#","BUZZER","BuzzTest"],
       "IsToggledOpen":true,
       "Name":"OTHER"
     }

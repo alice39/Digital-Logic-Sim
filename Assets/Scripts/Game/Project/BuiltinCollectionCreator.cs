@@ -66,7 +66,12 @@ namespace DLS.Game
 				CreateChipCollection("MEMORY",
 					ChipType.Rom_256x2x8,
 					ChipType.Rom_256x16,
-					ChipType.Rom_256x32
+					ChipType.Rom_256x32,
+					ChipType.Rom_256x16
+				),
+				CreateChipCollection("PORTS",
+					ChipType.Port_In,
+					ChipType.Port_Out
 				)
 			};
 		}

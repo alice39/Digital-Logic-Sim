@@ -150,7 +150,9 @@ namespace DLS.Graphics
 							break;
 						case SubChipInstance subchip:
 						{
-							DrawSubChip(subchip);
+							// Get sim representation of this subchip (note: if the subchip has not yet been placed, this will be null)
+							SimChip sim = chip.SimChip.TryGetSubChipFromID(subchip.ID).chip;
+							DrawSubChip(subchip, sim);
 							break;
 						}
 					}
@@ -220,6 +222,29 @@ namespace DLS.Graphics
 			Draw.Text(font, text, FontSizePinLabel, centre, Anchor.TextFirstLineCentre, Color.white);
 		}
 
+		public static void DrawPortLabel(SubChipInstance chip, SimChip sim = null)
+		{
+			if (sim == null || !string.IsNullOrWhiteSpace(chip.Label))
+			{
+				return;
+			}
+			if (chip.ChipType != ChipType.Port_In && chip.ChipType != ChipType.Port_Out)
+			{
+				return;
+			}
+			string text = sim.InternalState[0] != 9 ? sim.InternalState[0].ToString() : "All ports in use!";
+
+
+			const float offsetY = 0.2f;
+			FontType font = FontBold;
+
+			Vector2 size = Draw.CalculateTextBoundsSize(text, FontSizePinLabel, font) + LabelBackgroundPadding;
+			Vector2 centre = chip.Position + Vector2.down * (chip.Size.y / 2 + offsetY);
+
+			Draw.Quad(centre, size, ActiveTheme.PinLabelCol);
+			Draw.Text(font, text, FontSizePinLabel, centre, Anchor.TextFirstLineCentre, Color.white);
+		}
+
 		public static void DrawPinDecValue(DevPinInstance pin)
 		{
 			if (pin.pinValueDisplayMode == PinValueDisplayMode.Off) return;
@@ -257,7 +282,7 @@ namespace DLS.Graphics
 			return useBlackText ? ColHelper.Darken(chipCol, a) : ColHelper.Brighten(chipCol, a);
 		}
 
-		public static void DrawSubChip(SubChipInstance subchip)
+		public static void DrawSubChip(SubChipInstance subchip, SimChip sim = null)
 		{
 			ChipDescription desc = subchip.Description;
 			Color chipCol = desc.Colour;
@@ -337,6 +362,11 @@ namespace DLS.Graphics
 				}
 
 				Draw.Text(FontBold, displayName, FontSizeChipName, textPos, textAnchor, nameTextCol, ChipNameLineSpacing);
+			}
+
+			if (subchip.ChipType == ChipType.Port_In || subchip.ChipType == ChipType.Port_Out)
+			{
+				DrawPortLabel(subchip, sim);
 			}
 		}
 

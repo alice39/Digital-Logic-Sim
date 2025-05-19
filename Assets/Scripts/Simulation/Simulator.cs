@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using DLS.Description;
 using DLS.Game;
+using DLS.Ports;
 using Random = System.Random;
 
 namespace DLS.Simulation
@@ -618,6 +619,27 @@ namespace DLS.Simulation
 					int freqIndex = PinState.GetBitStates(chip.InputPins[0].State);
 					int volumeIndex = PinState.GetBitStates(chip.InputPins[1].State);
 					audioState.RegisterNote(freqIndex, (uint)volumeIndex);
+					break;
+				}
+				case ChipType.Port_In:
+				{
+					int? portIndex = PortRegistry.GetPortIndex(chip);
+					if (portIndex == null) break;
+
+					// Read from external source
+					byte portValue = PortCommunicationManager.ReadInputPort(portIndex.Value);
+					PinState.Set(ref chip.OutputPins[0].State, portValue);
+					break;
+				}
+				case ChipType.Port_Out:
+				{
+					int? portIndex = PortRegistry.GetPortIndex(chip);
+					if (portIndex == null) break;
+
+					byte portValue = (byte) PinState.GetBitStates(chip.InputPins[0].State);
+
+					// Write to port buffer
+					PortCommunicationManager.WriteOutputPort(portIndex.Value, portValue);
 					break;
 				}
 				// ---- Bus types ----

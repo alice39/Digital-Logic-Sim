@@ -66,7 +66,10 @@ namespace DLS.Game
 				CreateBus(PinBitCount.Bit16),
 				CreateBusTerminus(PinBitCount.Bit16),
 				// ---- Audio ----
-				CreateBuzzer()
+				CreateBuzzer(),
+				// ---- Ports ----
+				CreatePortIn(),
+				CreatePortOut()
 			};
 		}
 
@@ -517,6 +520,33 @@ namespace DLS.Game
 			return CreateBuiltinChipDescription(type, BusChipSize(bitCount), busOrigin.Colour, inputs, null, null, NameDisplayLocation.Hidden);
 		}
 
+
+		static ChipDescription CreatePortIn()
+		{
+			PinDescription[] outputPins = 
+			{
+				CreatePinDescription("IN", 0, PinBitCount.Bit8)
+			};
+
+			Vector2 size = new(CalculateGridSnappedWidth(GridSize * 12), SubChipInstance.MinChipHeightForPins(null, outputPins) + GridSize * 2);
+			Color col = new(0.32f, 0.75f, 0.39f);
+
+
+			return CreateBuiltinChipDescription(ChipType.Port_In, size, col, null, outputPins);
+		}
+
+		static ChipDescription CreatePortOut()
+		{
+			PinDescription[] inputPins = 
+			{ 
+				CreatePinDescription("OUT", 0, PinBitCount.Bit8)
+			};
+
+			Vector2 size = new(CalculateGridSnappedWidth(GridSize * 12), SubChipInstance.MinChipHeightForPins(inputPins, null) + GridSize * 2);
+			Color col = new(0.32f, 0.75f, 0.39f);
+
+			return CreateBuiltinChipDescription(ChipType.Port_Out, size, col, inputPins, null);
+		}
 
 		static ChipDescription CreateBuiltinChipDescription(ChipType type, Vector2 size, Color col, PinDescription[] inputs, PinDescription[] outputs, DisplayDescription[] displays = null, NameDisplayLocation nameLoc = NameDisplayLocation.Centre)
 		{

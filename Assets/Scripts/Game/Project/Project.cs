@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using DLS.Description;
 using DLS.Graphics;
+using DLS.Ports;
 using DLS.SaveSystem;
 using DLS.Simulation;
 using Seb.Helpers;
@@ -116,6 +117,9 @@ namespace DLS.Game
 				IsBackground = true
 			};
 			simThread.Start();
+
+			PortRegistry.Initialize();
+			PortCommunicationManager.Initialize(description.Prefs_PortInterfaceType, description.Prefs_PortInterface_PortNumber);
 		}
 
 		public void EnterViewMode(SubChipInstance subchip)
@@ -484,6 +488,7 @@ namespace DLS.Game
 		public void NotifyExit()
 		{
 			simThreadActive = false;
+			PortCommunicationManager.Shutdown();
 		}
 
 		void SimThread()
@@ -596,6 +601,12 @@ namespace DLS.Game
 		{
 			description = editedProjectDesc;
 			SaveCurrentProjectDescription();
+		}
+
+		public void ReloadPorts()
+		{
+			PortCommunicationManager.Shutdown();
+			PortCommunicationManager.Initialize(description.Prefs_PortInterfaceType, description.Prefs_PortInterface_PortNumber);
 		}
 
 		public void SaveCurrentProjectDescription()
